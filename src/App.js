@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import Navbar from "./components/common/Navbar";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Homepage from "./pages/Homepage";
+import { useSelector } from "react-redux";
+import CreatePost from "./components/CreatePost";
+import Error from "./pages/Error";
+import MyPosts from "./pages/MyPosts";
 
 function App() {
+
+  const showCreatePost = useSelector(state => state.showCreatePost.value);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Navbar></Navbar>
+
+      <div className={` fixed flex justify-center items-center top-0 w-full h-[100vh] backdrop-blur-md ` + (showCreatePost ? " block" : " hidden")}>
+        <CreatePost />
+      </div>
+
+      <div className="w-full  min-h-[calc(100vh-65px)] mb-10 mt-24 justify-center flex items-center m-auto">
+
+        <Routes>
+          <Route path="/" exact element={<Homepage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/myPosts" element={<MyPosts />} />
+          <Route path="*" element={<Error />} />
+        </Routes>
+      </div>
+
     </div>
   );
 }
